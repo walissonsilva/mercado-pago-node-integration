@@ -51,28 +51,24 @@ app.get('/buy', async (req, res) => {
 app.post('/ipn', (req, res) => {
   const id = req.query.id;
 
-  console.log(req.query);
-  
-  res.status(200).send('ok');
+  setTimeout(async () => {
+    const filter = {
+      'order.id': id
+    }
 
-  // setTimeout(async () => {
-  //   const filter = {
-  //     'order.id': id
-  //   }
+    try {
+      const data = await MercadoPago.payment.search({
+        qs: filter
+      })
 
-  //   try {
-  //     const data = await MercadoPago.payment.search({
-  //       qs: filter
-  //     })
+      console.log(data.body.results);
 
-  //     console.log(data.body.results);
+      res.status(200).json({status: 'ok'});
+    } catch (err) {
+      res.status(500).json({error: err});
+    }
 
-  //     res.status(200).json({status: 'ok'});
-  //   } catch (err) {
-  //     res.status(500).json({error: err});
-  //   }
-
-  // }, 20000);
+  }, 20000);
 })
 
 app.listen(process.env.PORT || PORT, () => {
