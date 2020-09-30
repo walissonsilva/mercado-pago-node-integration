@@ -61,11 +61,25 @@ app.post('/ipn', (req, res) => {
         qs: filter
       })
 
-      console.log(data.body.results);
+      const info = data.body.results; 
+      console.log(info);
 
-      res.status(200).json({status: 'ok'});
+      const find_payment = await Payment.findOne({
+        id: info.external_reference
+      })
+
+      console.log(find_payment);
+
+      if (find_payment) {
+        await Payment.updateOne(
+          { id: info.external_reference },
+          { $set: { status: info.status } }
+        )
+      }
+
+      res.status(200).send('ok');
     } catch (err) {
-      res.status(500).json({error: err});
+      res.status(500).send(err);
     }
 
   }, 20000);
