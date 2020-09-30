@@ -61,17 +61,17 @@ app.post('/ipn', (req, res) => {
         qs: filter
       })
 
-      const info = data.body.results; 
+      const info = data.body.results[0]; 
       console.log(info);
 
-      const find_payment = await Payment.find({
+      const find_payment = await Payment.findOne({
         code: info.external_reference
       })
 
       console.log(find_payment);
 
       if (find_payment) {
-        await Payment.update(
+        await Payment.updateOne(
           { code: info.external_reference },
           { $set: { status: info.status } }
         )
