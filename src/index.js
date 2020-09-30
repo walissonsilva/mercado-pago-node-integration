@@ -1,6 +1,5 @@
 const express = require('express');
 const MercadoPago = require('mercadopago');
-const { catch } = require('./database/database');
 const connection = require('./database/database');
 
 require('dotenv').config();
@@ -54,7 +53,7 @@ app.post('/ipn', (req, res) => {
 
   console.log(req.query);
   
-  res.status(200).json({status: 'ok'});
+  res.status(200).send('ok');
 
   // setTimeout(async () => {
   //   const filter = {
