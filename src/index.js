@@ -1,5 +1,6 @@
 const express = require('express');
 const MercadoPago = require('mercadopago');
+const { catch } = require('./database/database');
 const connection = require('./database/database');
 
 require('dotenv').config();
@@ -46,6 +47,29 @@ app.get('/buy', async (req, res) => {
   } catch (err) {
     res.status(500).json({error: err});
   }
+})
+
+app.post('/ipn', (req, res) => {
+  const id = req.query.id;
+
+  setTimeout(async () => {
+    const filter = {
+      'order.id': id
+    }
+
+    try {
+      const data = await MercadoPago.payment.search({
+        qs: filter
+      })
+
+      console.log(data.body.results);
+
+      res.status(200).json({status: 'ok'});
+    } catch (err) {
+      res.status(500).json({error: err});
+    }
+
+  }, 20000);
 })
 
 app.listen(process.env.PORT || PORT, () => {
