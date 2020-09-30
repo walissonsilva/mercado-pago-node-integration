@@ -65,14 +65,14 @@ app.post('/ipn', (req, res) => {
       console.log(info);
 
       const find_payment = await Payment.findOne({
-        id: info.external_reference
+        code: info.external_reference
       })
 
       console.log(find_payment);
 
       if (find_payment) {
         await Payment.updateOne(
-          { id: info.external_reference },
+          { code: info.external_reference },
           { $set: { status: info.status } }
         )
       }
