@@ -48,6 +48,6 @@ app.get('/buy', async (req, res) => {
   }
 })
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log('Server is running in PORT ', PORT);
 })
