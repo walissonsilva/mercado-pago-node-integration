@@ -61,14 +61,11 @@ app.post('/ipn', (req, res) => {
         qs: filter
       })
 
-      const info = data.body.results[0]; 
-      console.log(info);
+      const info = data.body.results[0];
 
       const find_payment = await Payment.findOne({
         code: info.external_reference
       })
-
-      console.log(find_payment);
 
       if (find_payment) {
         await Payment.updateOne(
