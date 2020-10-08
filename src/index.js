@@ -63,6 +63,8 @@ app.post('/ipn', (req, res) => {
 
       const info = data.body.results[0];
 
+      console.log(info);
+
       const find_payment = await Payment.findOne({
         code: info.external_reference
       })
