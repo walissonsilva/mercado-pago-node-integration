@@ -50,6 +50,7 @@ app.get('/buy', async (req, res) => {
 
 app.post('/ipn', (req, res) => {
   const id = req.query.id;
+  console.log(req.query);
 
   setTimeout(async () => {
     const filter = {
